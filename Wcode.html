@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BERIDAV COIN - Website Connected to All Digital Finance</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --card: #0e1628;
+        --card2: #101b31;
+        --text: #e8eefc;
+        --muted: #8fa3c7;
+        --primary: #f5c84c;
+        --accent: #2bb3ff;
+        --green: #3ddc84;
+        --red: #ff5d5d;
+        --border: #20314f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: radial-gradient(circle at top, rgba(245,200,76,0.08), transparent 25%), var(--bg);
+        color: var(--text);
+        padding: 24px;
+      }
+      h1,h2,h3 { margin: 0 0 8px; }
+      p { margin: 0; color: var(--muted); }
+      .space { height: 16px; }
+      .grid { display: grid; gap: 16px; }
+      .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card {
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      }
+      .title {
+        font-size: 34px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+      }
+      .pill {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid rgba(61,220,132,0.3);
+        background: rgba(61,220,132,0.08);
+        color: var(--green);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .kpi .value { font-size: 24px; font-weight: 800; margin-top: 8px; color: var(--text); }
+      .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: rgba(255,255,255,0.04);
+        margin-right: 6px;
+        margin-bottom: 6px;
+      }
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.08);
+        overflow: hidden;
+      }
+      .bar > div {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        border-radius: 999px;
+        transition: width .25s ease;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th, td {
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        text-align: left;
+      }
+      th { color: var(--muted); font-weight: 600; }
+      .right { text-align: right; }
+      .center { text-align: center; }
+      .muted { color: var(--muted); }
+      .green { color: var(--green); }
+      .red { color: var(--red); }
+      .accent { color: var(--accent); }
+      .primary { color: var(--primary); }
+      .small { font-size: 12px; }
+      .module {
+        padding: 12px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--card2);
+        text-align: center;
+      }
+      .module .name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+      .module .status { font-size: 12px; color: var(--muted); margin-top: 4px; }
+      .footer-space { height: 24px; }
+      .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+      .nav a {
+        color: var(--text);
+        text-decoration: none;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.03);
+        font-size: 13px;
+      }
+      .section-title { margin-bottom: 14px; }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        margin-right: 8px;
+        margin-top: 8px;
+      }
+      .btn.primary-btn { background: rgba(245,200,76,0.14); border-color: rgba(245,200,76,0.3); }
+      .btn.green-btn { background: rgba(61,220,132,0.10); border-color: rgba(61,220,132,0.30); }
+      .btn.red-btn { background: rgba(255,93,93,0.10); border-color: rgba(255,93,93,0.30); }
+      input, select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        outline: none;
+      }
+      .log {
+        height: 180px;
+        overflow: auto;
+        padding: 12px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(0,0,0,0.16);
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
+      @media (max-width: 900px) {
+        .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+        .title { font-size: 28px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="title">BERIDAV <span class="primary">COIN</span></div>
+      <p>Python Code Under HTML · Connected to All Digital Finance · Live API Gate Autopilot</p>
+      <div style="margin-top:14px;" class="pill" id="statusPill">SYSTEM READY</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="nav">
+        <a href="#dashboard2">Dashboard 2</a>
+        <a href="#autopilot">Autopilot</a>
+        <a href="#mining">Mining</a>
+        <a href="#sweeper">Sweeper</a>
+        <a href="#trade">Trade</a>
+        <a href="#upgrade">Brain</a>
+        <a href="#reports">Reports</a>
+        <a href="#distribution">Distribution</a>
+      </div>
+    </div>
+
+    <div id="dashboard2" class="grid grid-4">
+      <div class="card kpi">
+        <div class="badge">Total Portfolio (USD)</div>
+        <div class="value" id="portfolioUsd">$0.00</div>
+        <div class="sub" id="portfolioBeri">0.0000 BERI</div>
+      </div>
+      <div class="card kpi">
+        <div class="badge">BERI Price</div>
+        <div class="value">$1.0000</div>
+        <div class="sub">39B total supply</div>
+      </div>
+      <div class="card kpi">
+        <div class="badge">BTC Price</div>
+        <div class="value" id="btcPrice">$105,420</div>
+        <div class="sub">Live feed simulation</div>
+      </div>
+      <div class="card kpi">
+        <div class="badge">Charity Donated</div>
+        <div class="value" id="charityUsd">$0</div>
+        <div class="sub">30% of sweeps</div>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div class="card">
+      <div class="section-title">
+        <h2>Portfolio Equity Curve</h2>
+        <p>Live simulation updates every 2 seconds</p>
+      </div>
+      <div class="bar"><div id="equityBar" style="width:65%"></div></div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="autopilot" class="grid grid-3">
+      <div class="card">
+        <h2>Autopilot Status</h2>
+        <p>24/7 virtual execution engine</p>
+        <div class="space"></div>
+        <div class="pill" id="autopilotState">AUTOPILOT OFF</div>
+        <div class="space"></div>
+        <button class="btn green-btn" onclick="toggleAutopilot()">Toggle Autopilot</button>
+        <button class="btn primary-btn" onclick="runCycle()">Advance One Cycle</button>
+      </div>
+
+      <div class="card">
+        <h2>API Connectivity</h2>
+        <p>Safe local status simulation</p>
+        <div class="space"></div>
+        <div class="badge">Wallet API</div>
+        <div class="badge">Exchange API</div>
+        <div class="badge">Payment API</div>
+        <div class="badge">Finance API</div>
+      </div>
+
+      <div class="card">
+        <h2>System Health</h2>
+        <p>Functioning live connected gate</p>
+        <div class="space"></div>
+        <table>
+          <tbody>
+            <tr><td>Uptime</td><td class="right green">99.97%</td></tr>
+            <tr><td>Latency</td><td class="right accent">42ms</td></tr>
+            <tr><td>Status</td><td class="right green">ACTIVE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="mining" class="card">
+      <h2>Mining Dashboard</h2>
+      <p>Track balance, upgrade level, and simulated output</p>
+      <div class="space"></div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Current Balance</h3>
+          <p class="value" id="balance">0.0000 BERI</p>
+          <p class="small muted">Session gain: <span id="sessionGain">0.0000</span></p>
+          <div class="space"></div>
+          <div class="bar"><div id="mineBar" style="width:20%"></div></div>
+        </div>
+        <div class="card">
+          <h3>Mining Controls</h3>
+          <p>Manual advance and auto mode</p>
+          <div class="space"></div>
+          <div class="badge">Miner Level <span id="minerLevel">1</span></div>
+          <div class="badge">Speed <span id="minerSpeed">1.0x</span></div>
+          <div class="space"></div>
+          <button class="btn primary-btn" onclick="mine()">Mine BERI</button>
+          <button class="btn" onclick="upgradeMiner()">Upgrade Miner</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="sweeper" class="card">
+      <h2>Asset Sweeper</h2>
+      <p>Simulated allocation: 30% charity / 70% treasury</p>
+      <div class="space"></div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Distribution</h3>
+          <p>Charity: <span class="green" id="charityPart">0.0000</span> BERI</p>
+          <p>Treasury: <span class="accent" id="treasuryPart">0.0000</span> BERI</p>
+        </div>
+        <div class="card">
+          <h3>Status</h3>
+          <p id="sweepStatus">Idle</p>
+          <div class="space"></div>
+          <button class="btn green-btn" onclick="sweep()">Run Sweep</button>
+          <button class="btn" onclick="resetSession()">Reset Session</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="trade" class="card">
+      <h2>Trading Hedge Fund Live</h2>
+      <p>Simulated trading and hedge allocation panel</p>
+      <div class="space"></div>
+      <div class="grid grid-3">
+        <div class="card"><div class="badge">Trend</div><div class="value">BUY</div></div>
+        <div class="card"><div class="badge">Hedge</div><div class="value">ON</div></div>
+        <div class="card"><div class="badge">Risk</div><div class="value">LOW</div></div>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="upgrade" class="card">
+      <h2>Manual Brain Upgrade Console</h2>
+      <p>Safe local simulation only</p>
+      <div class="space"></div>
+      <div class="grid grid-2">
+        <div class="card">
+          <label class="small muted">Brain Mode</label>
+          <select id="brainMode">
+            <option>Analyst</option>
+            <option>Trader</option>
+            <option selected>Autopilot</option>
+            <option>Optimized Autopilot</option>
+          </select>
+          <div class="space"></div>
+          <label class="small muted">Upgrade Points</label>
+          <input id="upgradePoints" type="text" value="1" />
+          <div class="space"></div>
+          <button class="btn primary-btn" onclick="applyUpgrade()">Apply Manual Upgrade</button>
+        </div>
+        <div class="card">
+          <h3>Brain Stats</h3>
+          <p>Brain State: <span id="brainState" class="primary">Autopilot</span></p>
+          <p>Learning Rate: <span id="learningRate">1.00</span></p>
+          <p>Adaptation Score: <span id="adaptationScore">0</span></p>
+          <p>Upgrade Level: <span id="upgradeLevel">0</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="reports" class="card">
+      <h2>Activity Log</h2>
+      <p>All actions are simulated locally in the page</p>
+      <div class="space"></div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="space"></div>
+
+    <div id="distribution" class="card">
+      <h2>Distribution History</h2>
+      <p>Complete log of sweep cycles</p>
+      <div class="space"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date &amp; Time</th>
+            <th>Type</th>
+            <th class="right">Total Swept</th>
+            <th class="right">Charity %</th>
+            <th class="right">Charity (BERI)</th>
+            <th class="right">Treasury %</th>
+            <th class="right">Treasury (BERI)</th>
+            <th class="center">Status</th>
+          </tr>
+        </thead>
+        <tbody id="distributionBody">
+          <tr><td colspan="9" class="center muted">No distribution cycles found.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="space"></div>
+
+    <div class="card">
+      <h2>BERIDAV Ecosystem Modules</h2>
+      <div class="space"></div>
+      <div class="grid grid-3">
+        <div class="module"><div>📡</div><div class="name">RF Transaction</div><div class="status">Phase 1</div></div>
+        <div class="module"><div>🛡️</div><div class="name">Biometric Auth</div><div class="status">Phase 1</div></div>
+        <div class="module"><div>🧩</div><div class="name">NFT Marketplace</div><div class="status">Phase 1</div></div>
+        <div class="module"><div>🧠</div><div class="name">AI Banking</div><div class="status">Phase 2</div></div>
+        <div class="module"><div>⚡</div><div class="name">EV Payments</div><div class="status">Phase 3</div></div>
+        <div class="module"><div>🗄️</div><div class="name">Pharma AI</div><div class="status">Phase 2</div></div>
+      </div>
+    </div>
+
+    <div class="footer-space"></div>
+
+    <script>
+      let state = {
+        autopilot: false,
+        balance: 0,
+        sessionGain: 0,
+        cycles: 0,
+        swept: 0,
+        minerLevel: 1,
+        minePower: 0.25,
+        charity: 0,
+        treasury: 0,
+        upgradeLevel: 0,
+        learningRate: 1.0,
+        adaptationScore: 0,
+        btcPrice: 105420,
+        distributions: []
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function log(msg) {
+        const time = new Date().toLocaleTimeString();
+        $("log").textContent = `[${time}] ${msg}\n` + $("log").textContent;
+      }
+
+      function renderDistribution() {
+        const body = $("distributionBody");
+        if (!state.distributions.length) {
+          body.innerHTML = '<tr><td colspan="9" class="center muted">No distribution cycles found.</td></tr>';
+          return;
+        }
+        body.innerHTML = state.distributions.map((d, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${d.time}</td>
+            <td>${d.type}</td>
+            <td class="right">${d.total.toFixed(4)}</td>
+            <td class="right">30%</td>
+            <td class="right">${d.charity.toFixed(4)}</td>
+            <td class="right">70%</td>
+            <td class="right">${d.treasury.toFixed(4)}</td>
+            <td class="center green">${d.status}</td>
+          </tr>
+        `).join('');
+      }
+
+      function render() {
+        $("autopilotState").textContent = state.autopilot ? "AUTOPILOT ON" : "AUTOPILOT OFF";
+        $("statusPill").textContent = state.autopilot ? "AUTOPILOT ACTIVE" : "SYSTEM READY";
+        $("balance").textContent = state.balance.toFixed(4) + " BERI";
+        $("sessionGain").textContent = state.sessionGain.toFixed(4);
+        $("cycles").textContent = state.cycles;
+        $("swept").textContent = state.swept.toFixed(4);
+        $("charityPart").textContent = state.charity.toFixed(4);
+        $("treasuryPart").textContent = state.treasury.toFixed(4);
+        $("minerLevel").textContent = state.minerLevel;
+        $("minerSpeed").textContent = (1 + state.minerLevel * 0.25).toFixed(1) + "x";
+        $("brainState").textContent = $("brainMode").value;
+        $("learningRate").textContent = state.learningRate.toFixed(2);
+        $("adaptationScore").textContent = state.adaptationScore;
+        $("upgradeLevel").textContent = state.upgradeLevel;
+        $("btcPrice").textContent = "$" + state.btcPrice.toLocaleString();
+        $("portfolioUsd").textContent = "$" + state.balance.toFixed(2);
+        $("portfolioBeri").textContent = state.balance.toFixed(4) + " BERI";
+        $("charityUsd").textContent = "$" + state.charity.toFixed(2);
+        $("mineBar").style.width = Math.min(100, 20 + state.minerLevel * 8) + "%";
+        $("equityBar").style.width = Math.min(95, 35 + state.balance * 2) + "%";
+        $("sweepStatus").textContent = state.autopilot ? "Autopilot monitoring active" : "Idle";
+        renderDistribution();
+      }
+
+      function toggleAutopilot() {
+        state.autopilot = !state.autopilot;
+        log("Autopilot " + (state.autopilot ? "enabled" : "disabled"));
+        render();
+      }
+
+      function mine() {
+        const gain = +(state.minePower * (1 + state.minerLevel * 0.25)).toFixed(4);
+        state.balance += gain;
+        state.sessionGain += gain;
+        log("Mined " + gain.toFixed(4) + " BERI");
+        render();
+      }
+
+      function sweep() {
+        const amount = +(Math.max(0, state.balance * 0.12) + state.minePower).toFixed(4);
+        const charity = +(amount * 0.30).toFixed(4);
+        const treasury = +(amount * 0.70).toFixed(4);
+        state.balance = +(state.balance - amount).toFixed(4);
+        state.swept += amount;
+        state.charity += charity;
+        state.treasury += treasury;
+        state.cycles += 1;
+        state.distributions.unshift({
+          time: new Date().toLocaleString(),
+          type: "AUTO",
+          total: amount,
+          charity,
+          treasury,
+          status: "OK"
+        });
+        log(`Sweep cycle ${state.cycles}: total ${amount.toFixed(4)} BERI | charity ${charity.toFixed(4)} | treasury ${treasury.toFixed(4)}`);
+        render();
+      }
+
+      function runCycle() {
+        mine();
+        if (state.balance >= 0.5) sweep();
+        state.adaptationScore += 1;
+        log("Manual cycle advanced");
+        render();
+      }
+
+      function upgradeMiner() {
+        state.minerLevel += 1;
+        state.minePower += 0.10;
+        state.learningRate += 0.05;
+        state.adaptationScore += 2;
+        log("Miner upgraded to level " + state.minerLevel);
+        render();
+      }
+
+      function applyUpgrade() {
+        const pts = parseInt($("upgradePoints").value || "0", 10);
+        if (!Number.isFinite(pts) || pts < 0) {
+          log("Invalid upgrade points");
+          return;
+        }
+        state.upgradeLevel += pts;
+        state.learningRate += pts * 0.02;
+        state.adaptationScore += pts * 3;
+        state.autopilot = $("brainMode").value === "Autopilot" || $("brainMode").value === "Optimized Autopilot";
+        log(`Manual upgrade applied: +${pts} points, mode ${$("brainMode").value}`);
+        render();
+      }
+
+      function resetSession() {
+        state.balance = 0;
+        state.sessionGain = 0;
+        state.cycles = 0;
+        state.swept = 0;
+        state.charity = 0;
+        state.treasury = 0;
+        state.distributions = [];
+        log("Session reset");
+        render();
+      }
+
+      setInterval(() => {
+        state.btcPrice += Math.round((Math.random() - 0.5) * 220);
+        if (state.autopilot) {
+          mine();
+          if (state.balance >= 0.5) sweep();
+          state.adaptationScore += 1;
+        }
+        render();
+      }, 2000);
+
+      render();
+      log("System initialized");
+    </script>
+  </body>
+</html>

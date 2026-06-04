@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BERIDAVCOIN Autopilot</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5eefb;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #060b16;
+      border-bottom: 1px solid #1d2a44;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand strong { font-size: 18px; }
+    .brand span { color: #8ca3c7; font-size: 12px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+    nav {
+      background: #09101d;
+      border-right: 1px solid #1d2a44;
+      padding: 18px 12px;
+    }
+    nav button {
+      width: 100%;
+      margin: 6px 0;
+      padding: 12px;
+      border: 0;
+      border-radius: 10px;
+      background: #13203a;
+      color: #e5eefb;
+      cursor: pointer;
+      text-align: left;
+    }
+    nav button.active {
+      background: #2563eb;
+    }
+    main {
+      padding: 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #121b2d;
+      border: 1px solid #1d2a44;
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #12213d, #10192a);
+      border: 1px solid #1d2a44;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .muted { color: #8ca3c7; }
+    button.action {
+      background: #2563eb;
+      color: white;
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+    button.secondary { background: #22324f; }
+    pre {
+      background: #060b16;
+      padding: 14px;
+      border-radius: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid #1d2a44;
+      font-size: 12px;
+    }
+    ul { margin: 8px 0 0 18px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #1f3356;
+      border-radius: 999px;
+      margin-left: 8px;
+      font-size: 12px;
+    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { display: flex; flex-wrap: wrap; gap: 8px; }
+      nav button { width: auto; flex: 1; }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <strong>BERIDAVCOIN</strong>
+    <span>Blockchain × Biotech Innovation</span>
+  </div>
+  <div id="statusTop" class="muted">Autopilot starting...</div>
+</header>
+
+<div class="layout">
+  <nav>
+    <button class="active" onclick="showPage('home', this)">Home</button>
+    <button onclick="showPage('mining', this)">Mining</button>
+    <button onclick="showPage('asset', this)">Asset Sweeper</button>
+    <button onclick="showPage('wallet', this)">Wallet</button>
+    <button onclick="showPage('reports', this)">Reports</button>
+    <button onclick="showPage('distributions', this)">Distributions</button>
+  </nav>
+
+  <main id="content"></main>
+</div>
+
+<script>
+let currentPage = "home";
+let miner = { level: 1, balance: 0, hashRate: 0 };
+let chartInstance = null;
+let autoTimer = null;
+
+const projectSnippets = {
+  frontend: `Home
+Mining
+Asset Sweeper
+Wallet
+Reports
+Distributions`,
+  api: `// Example API integration
+fetch("https://api.exchangerate.host/latest?base=USD&symbols=EUR")`,
+  blockchain: `// Demo cross-chain bridge
+const chainCount = 3;`,
+  python: `class BaseModel:
+    def predict(self, x):
+        return "base"
+
+class ChurnModel(BaseModel):
+    def predict(self, x):
+        return "High Churn Risk" if x["risk"] > 0.7 else "Stable"`
+};
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+class BaseModel {
+  predict(data) { return "base"; }
+}
+class ChurnModel extends BaseModel {
+  predict(data) { return Math.random() > 0.7 ? "High Churn Risk" : "Stable"; }
+}
+class RevenueModel extends BaseModel {
+  predict(data) { return Math.floor(Math.random() * 5000) + 1000; }
+}
+class OptimizationEngine {
+  constructor() { this.models = [new ChurnModel(), new RevenueModel()]; }
+  run(data) { return this.models.map(m => m.predict(data)); }
+}
+const engine = new OptimizationEngine();
+
+function getRates() {
+  return {
+    usdEur: "Unavailable",
+    btc: "Unavailable",
+    chainStatus: "Unavailable"
+  };
+}
+
+function mineStep() {
+  miner.balance += Math.floor(Math.random() * 15) + 5;
+  miner.hashRate = Math.floor(Math.random() * 250) + 50;
+  if (miner.balance > miner.level * 100) miner.level++;
+}
+
+function runAutopilot() {
+  mineStep();
+  const ml = engine.run({});
+  const rates = getRates();
+
+  const output = {
+    ml,
+    rates,
+    miner,
+    timestamp: new Date().toLocaleTimeString()
+  };
+
+  document.getElementById("statusTop").innerText = "Autopilot running";
+  const autopilot = document.getElementById("autopilotBox");
+  if (autopilot) autopilot.innerHTML = `<pre>${escapeHtml(JSON.stringify(output, null, 2))}</pre>`;
+
+  if (document.getElementById("minerLevel")) {
+    document.getElementById("minerLevel").innerText = miner.level;
+    document.getElementById("minerBalance").innerText = miner.balance;
+    document.getElementById("minerHash").innerText = miner.hashRate;
+  }
+
+  if (document.getElementById("walletRate")) {
+    document.getElementById("walletRate").innerText = "Unavailable";
+    document.getElementById("btcPrice"))?.innerText = "Unavailable";
+  }
+
+  if (document.getElementById("mlRisk")) {
+    document.getElementById("mlRisk").innerText = ml[0];
+    document.getElementById("mlAction").innerText = ml[0] === "High Churn Risk"
+      ? "Retention campaign recommended"
+      : "Upsell opportunity detected";
+    document.getElementById("mlConfidence").innerText = Math.floor(Math.random() * 100) + "%";
+  }
+
+  updateChart();
+}
+
+function updateChart() {
+  const canvas = document.getElementById("trendChart");
+  if (!canvas) return;
+
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: ["T1", "T2", "T3", "T4", "T5"],
+      datasets: [{
+        label: "BERI Balance",
+        data: [
+          miner.balance - 40,
+          miner.balance - 25,
+          miner.balance - 10,
+          miner.balance - 5,
+          miner.balance
+        ],
+        borderColor: "#60a5fa",
+        backgroundColor: "rgba(96,165,250,0.2)",
+        tension: 0.35
+      }]
+    },
+    options: {
+      plugins: { legend: { labels: { color: "#e5eefb" } } },
+      scales: {
+        x: { ticks: { color: "#e5eefb" }, grid: { color: "#20314f" } },
+        y: { ticks: { color: "#e5eefb" }, grid: { color: "#20314f" } }
+      }
+    }
+  });
+}
+
+function showPage(page, btn) {
+  currentPage = page;
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  const content = document.getElementById("content");
+
+  if (page === "home") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Blockchain × Biotech Innovation</h1>
+        <p class="muted">Enterprise-grade blockchain infrastructure for biotech innovation funding, with automated asset scanning simulation, charity allocation, and cross-chain API bridge.</p>
+        <div style="margin-top:12px">
+          <span class="pill">BERIDAVCOIN</span>
+          <span class="pill">$1.00 Share Price</span>
+          <span class="pill">30% Charity Split</span>
+          <span class="pill">70% Treasury</span>
+          <span class="pill">20% Staking APR</span>
+          <span class="pill">3 Chains</span>
+        </div>
+        <div style="margin-top:14px">
+          <button class="action" onclick="showPage('mining')">Start Mining</button>
+          <button class="action secondary" onclick="showPage('asset')">Asset Sweeper</button>
+        </div>
+      </section>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Advanced Mining</h3>
+          <p class="muted">Auto-incrementing miner with persistent balance tracking and level progression.</p>
+          <button class="action" onclick="showPage('mining')">Open</button>
+        </div>
+        <div class="card">
+          <h3>Asset Sweeper</h3>
+          <p class="muted">Demo scanning for unclaimed BERI coins with charity and treasury allocation.</p>
+          <button class="action" onclick="showPage('asset')">Open</button>
+        </div>
+        <div class="card">
+          <h3>Wallet & Rates</h3>
+          <p class="muted">Live currency API integration with real-time exchange rates and portfolio overview.</p>
+          <button class="action" onclick="showPage('wallet')">Open</button>
+        </div>
+      </div>
+
+      <div class="card section">
+        <h3>Autopilot ML</h3>
+        <ul>
+          <li>Churn risk: <span id="mlRisk">...</span></li>
+          <li id="mlAction">...</li>
+          <li>ML confidence: <span id="mlConfidence">...</span></li>
+        </ul>
+      </div>
+
+      <div class="card section">
+        <h3>Autopilot Output</h3>
+        <div id="autopilotBox"><pre>Loading...</pre></div>
+      </div>
+    `;
+  }
+
+  if (page === "mining") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Advanced Mining</h1>
+        <p class="muted">Auto-incrementing miner with persistent balance tracking and level progression.</p>
+        <button class="action" onclick="mineStep(); showPage('mining')">Mine Now</button>
+      </section>
+      <div class="grid">
+        <div class="card"><h3>Level</h3><h1 id="minerLevel">${miner.level}</h1></div>
+        <div class="card"><h3>Balance</h3><h1 id="minerBalance">${miner.balance}</h1></div>
+        <div class="card"><h3>Hash Rate</h3><h1 id="minerHash">${miner.hashRate}</h1></div>
+      </div>
+      <div class="card section">
+        <canvas id="trendChart"></canvas>
+      </div>
+    `;
+  }
+
+  if (page === "asset") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Asset Sweeper</h1>
+        <p class="muted">Safe demo scanning only. No real wallet, bank, or account access is performed.</p>
+        <button class="action" onclick="simulateSweep()">Run Scan</button>
+      </section>
+      <div class="card">
+        <h3>Scan Results</h3>
+        <ul id="scanList">
+          <li>Scanning: Unavailable</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  if (page === "wallet") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Wallet & Rates</h1>
+        <p class="muted">Live API panel; if unavailable, fallback is shown safely.</p>
+      </section>
+      <div class="grid">
+        <div class="card"><h3>USD → EUR</h3><h1 id="walletRate">Unavailable</h1></div>
+        <div class="card"><h3>Bitcoin</h3><h1 id="btcPrice">Unavailable</h1></div>
+        <div class="card"><h3>Portfolio</h3><h1>BERI + Demo</h1></div>
+      </div>
+      <div class="card section">
+        <button class="action" onclick="loadWalletData()">Refresh Rates</button>
+      </div>
+    `;
+    loadWalletData();
+  }
+
+  if (page === "reports") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Reports</h1>
+        <p class="muted">Autogenerated summaries from mining and ML simulation.</p>
+      </section>
+      <div class="card">
+        <pre id="reportBox">Generating...</pre>
+      </div>
+    `;
+    renderReport();
+  }
+
+  if (page === "distributions") {
+    content.innerHTML = `
+      <section class="hero">
+        <h1>Distributions</h1>
+        <p class="muted">30% charity / 70% treasury simulation.</p>
+      </section>
+      <div class="grid">
+        <div class="card"><h3>Charity</h3><h1 id="charityAmt">30%</h1></div>
+        <div class="card"><h3>Treasury</h3><h1 id="treasuryAmt">70%</h1></div>
+      </div>
+      <div class="card section">
+        <pre id="distributionBox">Available</pre>
+      </div>
+    `;
+  }
+
+  runAutopilot();
+}
+
+function simulateSweep() {
+  const items = [
+    "Found demo BERI: 0.00",
+    "Found demo wallet balance: Unavailable",
+    "Found demo charity allocation: 30%",
+    "Found demo treasury allocation: 70%"
+  ];
+  document.getElementById("scanList").innerHTML = items.map(x => `<li>${x}</li>`).join("");
+}
+
+async function loadWalletData() {
+  let rate = "Unavailable";
+  let btc = "Unavailable";
+
+  try {
+    const r = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=EUR").then(x => x.json());
+    rate = r?.rates?.EUR ?? "Unavailable";
+  } catch (e) {}
+
+  try {
+    const b = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json").then(x => x.json());
+    btc = b?.bpi?.USD?.rate ?? "Unavailable";
+  } catch (e) {}
+
+  const rateEl = document.getElementById("walletRate");
+  const btcEl = document.getElementById("btcPrice");
+  if (rateEl) rateEl.innerText = rate;
+  if (btcEl) btcEl.innerText = btc;
+}
+
+function renderReport() {
+  const report = {
+    balance: miner.balance,
+    level: miner.level,
+    hashRate: miner.hashRate,
+    mlRisk: new ChurnModel().predict({}),
+    charitySplit: "30%",
+    treasurySplit: "70%",
+    apiStatus: "Unavailable"
+  };
+  document.getElementById("reportBox").innerText = JSON.stringify(report, null, 2);
+}
+
+function runAutopilot() {
+  mineStep();
+
+  const ml = new OptimizationEngine().run({});
+  const homeRisk = ml[0];
+  const homeAction = homeRisk === "High Churn Risk"
+    ? "Retention campaign recommended"
+    : "Upsell opportunity detected";
+
+  const box = document.getElementById("autopilotBox");
+  if (box) {
+    box.innerHTML = `<pre>${escapeHtml(JSON.stringify({
+      page: currentPage,
+      mlRisk: homeRisk,
+      action: homeAction,
+      revenueEstimate: ml[1],
+      miner,
+      note: "All external integrations marked Unavailable when not accessible."
+    }, null, 2))}</pre>`;
+  }
+
+  if (document.getElementById("mlRisk")) {
+    document.getElementById("mlRisk").innerText = Math.random().toFixed(2);
+    document.getElementById("mlAction").innerText = homeAction;
+    document.getElementById("mlConfidence").innerText = Math.floor(Math.random() * 100) + "%";
+  }
+
+  if (document.getElementById("statusTop")) {
+    document.getElementById("statusTop").innerText = "Autopilot running";
+  }
+
+  if (document.getElementById("minerLevel")) {
+    document.getElementById("minerLevel").innerText = miner.level;
+    document.getElementById("minerBalance").innerText = miner.balance;
+    document.getElementById("minerHash").innerText = miner.hashRate;
+  }
+
+  if (currentPage === "reports") renderReport();
+  if (currentPage === "wallet") loadWalletData();
+  if (currentPage === "home") updateHomeText(homeRisk, homeAction);
+}
+
+function updateHomeText(risk, action) {
+  const r = document.getElementById("mlRisk");
+  const a = document.getElementById("mlAction");
+  const c = document.getElementById("mlConfidence");
+  if (r) r.innerText = risk;
+  if (a) a.innerText = action;
+  if (c) c.innerText = Math.floor(Math.random() * 100) + "%";
+}
+
+function startAutopilot() {
+  if (autoTimer) clearInterval(autoTimer);
+  runAutopilot();
+  autoTimer = setInterval(runAutopilot, 30000);
+}
+
+showPage("home");
+startAutopilot();
+</script>
+</body>
+</html>
