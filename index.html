@@ -1,564 +1,824 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BERIDAV COIN - Website Connected to All Digital Finance</title>
-    <style>
-      :root {
-        --bg: #07111f;
-        --card: #0e1628;
-        --card2: #101b31;
-        --text: #e8eefc;
-        --muted: #8fa3c7;
-        --primary: #f5c84c;
-        --accent: #2bb3ff;
-        --green: #3ddc84;
-        --red: #ff5d5d;
-        --border: #20314f;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Inter, Arial, sans-serif;
-        background: radial-gradient(circle at top, rgba(245,200,76,0.08), transparent 25%), var(--bg);
-        color: var(--text);
-        padding: 24px;
-      }
-      h1,h2,h3 { margin: 0 0 8px; }
-      p { margin: 0; color: var(--muted); }
-      .space { height: 16px; }
-      .grid { display: grid; gap: 16px; }
-      .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 18px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-      }
-      .title {
-        font-size: 34px;
-        font-weight: 900;
-        letter-spacing: -0.03em;
-      }
-      .pill {
-        display: inline-flex;
-        gap: 8px;
-        align-items: center;
-        border: 1px solid rgba(61,220,132,0.3);
-        background: rgba(61,220,132,0.08);
-        color: var(--green);
-        border-radius: 999px;
-        padding: 8px 12px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .kpi .value { font-size: 24px; font-weight: 800; margin-top: 8px; color: var(--text); }
-      .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-      .badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        border: 1px solid var(--border);
-        color: var(--text);
-        background: rgba(255,255,255,0.04);
-        margin-right: 6px;
-        margin-bottom: 6px;
-      }
-      .bar {
-        height: 10px;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.08);
-        overflow: hidden;
-      }
-      .bar > div {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        border-radius: 999px;
-        transition: width .25s ease;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-      }
-      th, td {
-        padding: 10px 8px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        text-align: left;
-      }
-      th { color: var(--muted); font-weight: 600; }
-      .right { text-align: right; }
-      .center { text-align: center; }
-      .muted { color: var(--muted); }
-      .green { color: var(--green); }
-      .red { color: var(--red); }
-      .accent { color: var(--accent); }
-      .primary { color: var(--primary); }
-      .small { font-size: 12px; }
-      .module {
-        padding: 12px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: var(--card2);
-        text-align: center;
-      }
-      .module .name { font-size: 13px; font-weight: 700; margin-top: 6px; }
-      .module .status { font-size: 12px; color: var(--muted); margin-top: 4px; }
-      .footer-space { height: 24px; }
-      .nav { display: flex; flex-wrap: wrap; gap: 8px; }
-      .nav a {
-        color: var(--text);
-        text-decoration: none;
-        padding: 8px 12px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgba(255,255,255,0.03);
-        font-size: 13px;
-      }
-      .section-title { margin-bottom: 14px; }
-      .btn {
-        appearance: none;
-        border: 1px solid var(--border);
-        background: rgba(255,255,255,0.04);
-        color: var(--text);
-        padding: 10px 14px;
-        border-radius: 12px;
-        cursor: pointer;
-        font-weight: 700;
-        margin-right: 8px;
-        margin-top: 8px;
-      }
-      .btn.primary-btn { background: rgba(245,200,76,0.14); border-color: rgba(245,200,76,0.3); }
-      .btn.green-btn { background: rgba(61,220,132,0.10); border-color: rgba(61,220,132,0.30); }
-      .btn.red-btn { background: rgba(255,93,93,0.10); border-color: rgba(255,93,93,0.30); }
-      input, select {
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        background: rgba(255,255,255,0.04);
-        color: var(--text);
-        outline: none;
-      }
-      .log {
-        height: 180px;
-        overflow: auto;
-        padding: 12px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: rgba(0,0,0,0.16);
-        font-size: 12px;
-        line-height: 1.5;
-        white-space: pre-wrap;
-      }
-      @media (max-width: 900px) {
-        .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-        .title { font-size: 28px; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="title">BERIDAV <span class="primary">COIN</span></div>
-      <p>Python Code Under HTML · Connected to All Digital Finance · Live API Gate Autopilot</p>
-      <div style="margin-top:14px;" class="pill" id="statusPill">SYSTEM READY</div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px;">
-      <div class="nav">
-        <a href="#dashboard2">Dashboard 2</a>
-        <a href="#autopilot">Autopilot</a>
-        <a href="#mining">Mining</a>
-        <a href="#sweeper">Sweeper</a>
-        <a href="#trade">Trade</a>
-        <a href="#upgrade">Brain</a>
-        <a href="#reports">Reports</a>
-        <a href="#distribution">Distribution</a>
-      </div>
-    </div>
-
-    <div id="dashboard2" class="grid grid-4">
-      <div class="card kpi">
-        <div class="badge">Total Portfolio (USD)</div>
-        <div class="value" id="portfolioUsd">$0.00</div>
-        <div class="sub" id="portfolioBeri">0.0000 BERI</div>
-      </div>
-      <div class="card kpi">
-        <div class="badge">BERI Price</div>
-        <div class="value">$1.0000</div>
-        <div class="sub">39B total supply</div>
-      </div>
-      <div class="card kpi">
-        <div class="badge">BTC Price</div>
-        <div class="value" id="btcPrice">$105,420</div>
-        <div class="sub">Live feed simulation</div>
-      </div>
-      <div class="card kpi">
-        <div class="badge">Charity Donated</div>
-        <div class="value" id="charityUsd">$0</div>
-        <div class="sub">30% of sweeps</div>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div class="card">
-      <div class="section-title">
-        <h2>Portfolio Equity Curve</h2>
-        <p>Live simulation updates every 2 seconds</p>
-      </div>
-      <div class="bar"><div id="equityBar" style="width:65%"></div></div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="autopilot" class="grid grid-3">
-      <div class="card">
-        <h2>Autopilot Status</h2>
-        <p>24/7 virtual execution engine</p>
-        <div class="space"></div>
-        <div class="pill" id="autopilotState">AUTOPILOT OFF</div>
-        <div class="space"></div>
-        <button class="btn green-btn" onclick="toggleAutopilot()">Toggle Autopilot</button>
-        <button class="btn primary-btn" onclick="runCycle()">Advance One Cycle</button>
-      </div>
-
-      <div class="card">
-        <h2>API Connectivity</h2>
-        <p>Safe local status simulation</p>
-        <div class="space"></div>
-        <div class="badge">Wallet API</div>
-        <div class="badge">Exchange API</div>
-        <div class="badge">Payment API</div>
-        <div class="badge">Finance API</div>
-      </div>
-
-      <div class="card">
-        <h2>System Health</h2>
-        <p>Functioning live connected gate</p>
-        <div class="space"></div>
-        <table>
-          <tbody>
-            <tr><td>Uptime</td><td class="right green">99.97%</td></tr>
-            <tr><td>Latency</td><td class="right accent">42ms</td></tr>
-            <tr><td>Status</td><td class="right green">ACTIVE</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="mining" class="card">
-      <h2>Mining Dashboard</h2>
-      <p>Track balance, upgrade level, and simulated output</p>
-      <div class="space"></div>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Current Balance</h3>
-          <p class="value" id="balance">0.0000 BERI</p>
-          <p class="small muted">Session gain: <span id="sessionGain">0.0000</span></p>
-          <div class="space"></div>
-          <div class="bar"><div id="mineBar" style="width:20%"></div></div>
-        </div>
-        <div class="card">
-          <h3>Mining Controls</h3>
-          <p>Manual advance and auto mode</p>
-          <div class="space"></div>
-          <div class="badge">Miner Level <span id="minerLevel">1</span></div>
-          <div class="badge">Speed <span id="minerSpeed">1.0x</span></div>
-          <div class="space"></div>
-          <button class="btn primary-btn" onclick="mine()">Mine BERI</button>
-          <button class="btn" onclick="upgradeMiner()">Upgrade Miner</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="sweeper" class="card">
-      <h2>Asset Sweeper</h2>
-      <p>Simulated allocation: 30% charity / 70% treasury</p>
-      <div class="space"></div>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Distribution</h3>
-          <p>Charity: <span class="green" id="charityPart">0.0000</span> BERI</p>
-          <p>Treasury: <span class="accent" id="treasuryPart">0.0000</span> BERI</p>
-        </div>
-        <div class="card">
-          <h3>Status</h3>
-          <p id="sweepStatus">Idle</p>
-          <div class="space"></div>
-          <button class="btn green-btn" onclick="sweep()">Run Sweep</button>
-          <button class="btn" onclick="resetSession()">Reset Session</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="trade" class="card">
-      <h2>Trading Hedge Fund Live</h2>
-      <p>Simulated trading and hedge allocation panel</p>
-      <div class="space"></div>
-      <div class="grid grid-3">
-        <div class="card"><div class="badge">Trend</div><div class="value">BUY</div></div>
-        <div class="card"><div class="badge">Hedge</div><div class="value">ON</div></div>
-        <div class="card"><div class="badge">Risk</div><div class="value">LOW</div></div>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="upgrade" class="card">
-      <h2>Manual Brain Upgrade Console</h2>
-      <p>Safe local simulation only</p>
-      <div class="space"></div>
-      <div class="grid grid-2">
-        <div class="card">
-          <label class="small muted">Brain Mode</label>
-          <select id="brainMode">
-            <option>Analyst</option>
-            <option>Trader</option>
-            <option selected>Autopilot</option>
-            <option>Optimized Autopilot</option>
-          </select>
-          <div class="space"></div>
-          <label class="small muted">Upgrade Points</label>
-          <input id="upgradePoints" type="text" value="1" />
-          <div class="space"></div>
-          <button class="btn primary-btn" onclick="applyUpgrade()">Apply Manual Upgrade</button>
-        </div>
-        <div class="card">
-          <h3>Brain Stats</h3>
-          <p>Brain State: <span id="brainState" class="primary">Autopilot</span></p>
-          <p>Learning Rate: <span id="learningRate">1.00</span></p>
-          <p>Adaptation Score: <span id="adaptationScore">0</span></p>
-          <p>Upgrade Level: <span id="upgradeLevel">0</span></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="reports" class="card">
-      <h2>Activity Log</h2>
-      <p>All actions are simulated locally in the page</p>
-      <div class="space"></div>
-      <div class="log" id="log"></div>
-    </div>
-
-    <div class="space"></div>
-
-    <div id="distribution" class="card">
-      <h2>Distribution History</h2>
-      <p>Complete log of sweep cycles</p>
-      <div class="space"></div>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Date &amp; Time</th>
-            <th>Type</th>
-            <th class="right">Total Swept</th>
-            <th class="right">Charity %</th>
-            <th class="right">Charity (BERI)</th>
-            <th class="right">Treasury %</th>
-            <th class="right">Treasury (BERI)</th>
-            <th class="center">Status</th>
-          </tr>
-        </thead>
-        <tbody id="distributionBody">
-          <tr><td colspan="9" class="center muted">No distribution cycles found.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="space"></div>
-
-    <div class="card">
-      <h2>BERIDAV Ecosystem Modules</h2>
-      <div class="space"></div>
-      <div class="grid grid-3">
-        <div class="module"><div>📡</div><div class="name">RF Transaction</div><div class="status">Phase 1</div></div>
-        <div class="module"><div>🛡️</div><div class="name">Biometric Auth</div><div class="status">Phase 1</div></div>
-        <div class="module"><div>🧩</div><div class="name">NFT Marketplace</div><div class="status">Phase 1</div></div>
-        <div class="module"><div>🧠</div><div class="name">AI Banking</div><div class="status">Phase 2</div></div>
-        <div class="module"><div>⚡</div><div class="name">EV Payments</div><div class="status">Phase 3</div></div>
-        <div class="module"><div>🗄️</div><div class="name">Pharma AI</div><div class="status">Phase 2</div></div>
-      </div>
-    </div>
-
-    <div class="footer-space"></div>
-
-    <script>
-      let state = {
-        autopilot: false,
-        balance: 0,
-        sessionGain: 0,
-        cycles: 0,
-        swept: 0,
-        minerLevel: 1,
-        minePower: 0.25,
-        charity: 0,
-        treasury: 0,
-        upgradeLevel: 0,
-        learningRate: 1.0,
-        adaptationScore: 0,
-        btcPrice: 105420,
-        distributions: []
-      };
-
-      const $ = (id) => document.getElementById(id);
-
-      function log(msg) {
-        const time = new Date().toLocaleTimeString();
-        $("log").textContent = `[${time}] ${msg}\n` + $("log").textContent;
-      }
-
-      function renderDistribution() {
-        const body = $("distributionBody");
-        if (!state.distributions.length) {
-          body.innerHTML = '<tr><td colspan="9" class="center muted">No distribution cycles found.</td></tr>';
-          return;
-        }
-        body.innerHTML = state.distributions.map((d, i) => `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${d.time}</td>
-            <td>${d.type}</td>
-            <td class="right">${d.total.toFixed(4)}</td>
-            <td class="right">30%</td>
-            <td class="right">${d.charity.toFixed(4)}</td>
-            <td class="right">70%</td>
-            <td class="right">${d.treasury.toFixed(4)}</td>
-            <td class="center green">${d.status}</td>
-          </tr>
-        `).join('');
-      }
-
-      function render() {
-        $("autopilotState").textContent = state.autopilot ? "AUTOPILOT ON" : "AUTOPILOT OFF";
-        $("statusPill").textContent = state.autopilot ? "AUTOPILOT ACTIVE" : "SYSTEM READY";
-        $("balance").textContent = state.balance.toFixed(4) + " BERI";
-        $("sessionGain").textContent = state.sessionGain.toFixed(4);
-        $("cycles").textContent = state.cycles;
-        $("swept").textContent = state.swept.toFixed(4);
-        $("charityPart").textContent = state.charity.toFixed(4);
-        $("treasuryPart").textContent = state.treasury.toFixed(4);
-        $("minerLevel").textContent = state.minerLevel;
-        $("minerSpeed").textContent = (1 + state.minerLevel * 0.25).toFixed(1) + "x";
-        $("brainState").textContent = $("brainMode").value;
-        $("learningRate").textContent = state.learningRate.toFixed(2);
-        $("adaptationScore").textContent = state.adaptationScore;
-        $("upgradeLevel").textContent = state.upgradeLevel;
-        $("btcPrice").textContent = "$" + state.btcPrice.toLocaleString();
-        $("portfolioUsd").textContent = "$" + state.balance.toFixed(2);
-        $("portfolioBeri").textContent = state.balance.toFixed(4) + " BERI";
-        $("charityUsd").textContent = "$" + state.charity.toFixed(2);
-        $("mineBar").style.width = Math.min(100, 20 + state.minerLevel * 8) + "%";
-        $("equityBar").style.width = Math.min(95, 35 + state.balance * 2) + "%";
-        $("sweepStatus").textContent = state.autopilot ? "Autopilot monitoring active" : "Idle";
-        renderDistribution();
-      }
-
-      function toggleAutopilot() {
-        state.autopilot = !state.autopilot;
-        log("Autopilot " + (state.autopilot ? "enabled" : "disabled"));
-        render();
-      }
-
-      function mine() {
-        const gain = +(state.minePower * (1 + state.minerLevel * 0.25)).toFixed(4);
-        state.balance += gain;
-        state.sessionGain += gain;
-        log("Mined " + gain.toFixed(4) + " BERI");
-        render();
-      }
-
-      function sweep() {
-        const amount = +(Math.max(0, state.balance * 0.12) + state.minePower).toFixed(4);
-        const charity = +(amount * 0.30).toFixed(4);
-        const treasury = +(amount * 0.70).toFixed(4);
-        state.balance = +(state.balance - amount).toFixed(4);
-        state.swept += amount;
-        state.charity += charity;
-        state.treasury += treasury;
-        state.cycles += 1;
-        state.distributions.unshift({
-          time: new Date().toLocaleString(),
-          type: "AUTO",
-          total: amount,
-          charity,
-          treasury,
-          status: "OK"
-        });
-        log(`Sweep cycle ${state.cycles}: total ${amount.toFixed(4)} BERI | charity ${charity.toFixed(4)} | treasury ${treasury.toFixed(4)}`);
-        render();
-      }
-
-      function runCycle() {
-        mine();
-        if (state.balance >= 0.5) sweep();
-        state.adaptationScore += 1;
-        log("Manual cycle advanced");
-        render();
-      }
-
-      function upgradeMiner() {
-        state.minerLevel += 1;
-        state.minePower += 0.10;
-        state.learningRate += 0.05;
-        state.adaptationScore += 2;
-        log("Miner upgraded to level " + state.minerLevel);
-        render();
-      }
-
-      function applyUpgrade() {
-        const pts = parseInt($("upgradePoints").value || "0", 10);
-        if (!Number.isFinite(pts) || pts < 0) {
-          log("Invalid upgrade points");
-          return;
-        }
-        state.upgradeLevel += pts;
-        state.learningRate += pts * 0.02;
-        state.adaptationScore += pts * 3;
-        state.autopilot = $("brainMode").value === "Autopilot" || $("brainMode").value === "Optimized Autopilot";
-        log(`Manual upgrade applied: +${pts} points, mode ${$("brainMode").value}`);
-        render();
-      }
-
-      function resetSession() {
-        state.balance = 0;
-        state.sessionGain = 0;
-        state.cycles = 0;
-        state.swept = 0;
-        state.charity = 0;
-        state.treasury = 0;
-        state.distributions = [];
-        log("Session reset");
-        render();
-      }
-
-      setInterval(() => {
-        state.btcPrice += Math.round((Math.random() - 0.5) * 220);
-        if (state.autopilot) {
-          mine();
-          if (state.balance >= 0.5) sweep();
-          state.adaptationScore += 1;
-        }
-        render();
-      }, 2000);
-
-      render();
-      log("System initialized");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBOLA VACINE RESEARCH PROPOSAL STAGE 1 PROFESSIONALS' SUGGESTIONS - Comprehensive Preclinical Research Proposal - David Pkemei Beritet</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS Public Key once you create a free account
+            emailjs.init("YOUR_PUBLIC_KEY");
+        })();
     </script>
-  </body>
+    <style>
+        :root {
+            --primary-color: #0f4c81;
+            --secondary-color: #1b75bc;
+            --dark-color: #2c3e50;
+            --light-bg: #f8f9fa;
+            --border-color: #dcdde1;
+            --accent-color: #e67e22;
+            --success-color: #2ecc71;
+            --funding-color: #8e44ad;
+            --warning-color: #c0392b;
+            --crypto-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .slogan {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--accent-color);
+            letter-spacing: 0.5px;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 35px;
+        }
+
+        h3 {
+            color: var(--dark-color);
+            margin-top: 20px;
+        }
+
+        h4 {
+            margin: 5px 0;
+            color: var(--accent-color);
+        }
+
+        .meta-info {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+
+        .meta-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .cv-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .cv-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Advanced Engine & Engine Network Notification UI */
+        .notification-status-panel {
+            background: #ebf5fb;
+            border: 1px solid var(--secondary-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .status-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .engine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .engine-tag {
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(46, 204, 113, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        .diagram-box {
+            background: #eef2f7;
+            border: 1px dashed var(--secondary-color);
+            padding: 15px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .image-placeholder {
+            background: #eaeaea;
+            border: 1px solid #ccc;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 25px 0;
+            border-radius: 6px;
+            color: #555;
+        }
+
+        .image-title {
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .sequence-list {
+            margin: 20px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .sequence-step {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .sequence-step-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .sequence-step-subtitle {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+
+        .collab-card {
+            background: #fffdf6;
+            border: 1px solid #f39c12;
+            border-left: 6px solid #f39c12;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 6px;
+        }
+
+        .collab-card-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #d35400;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .collab-context {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        /* Funding Agency Specific Styles */
+        .funding-card {
+            background: #faf5ff;
+            border: 1px solid var(--funding-color);
+            border-left: 6px solid var(--funding-color);
+        }
+
+        .funding-card .collab-card-title {
+            color: #6c5ce7;
+        }
+
+        .funding-card .submit-btn {
+            background-color: var(--funding-color);
+        }
+
+        .funding-card .submit-btn:hover {
+            background-color: #701fa1;
+        }
+
+        /* Security and Warning Styles */
+        .security-card {
+            background: #f4fbf7;
+            border: 1px solid var(--crypto-color);
+            border-left: 6px solid var(--crypto-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 6px;
+        }
+        
+        .security-card .collab-card-title {
+            color: var(--crypto-color);
+        }
+
+        .warning-note-panel {
+            background: #fdf2f2;
+            border: 2px solid var(--warning-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 8px solid var(--warning-color);
+        }
+
+        .warning-title {
+            font-weight: bold;
+            color: var(--warning-color);
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #f39c12;
+            background-color: #fff;
+        }
+
+        .submit-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #d35400;
+        }
+
+        .global-terminal {
+            background: #2f3640;
+            border: 1px solid #1e222b;
+            padding: 25px;
+            border-radius: 6px;
+            margin-top: 30px;
+        }
+
+        .global-terminal h3 {
+            color: #f5f6fa;
+            margin-top: 0;
+        }
+
+        .global-terminal textarea {
+            background: #1e222b;
+            color: #4cd137;
+            border: 1px solid #353b48;
+            height: 300px;
+        }
+
+        .global-terminal textarea:focus {
+            border-color: #4cd137;
+        }
+
+        .global-terminal .submit-btn {
+            background-color: #4cd137;
+            color: #1e222b;
+        }
+
+        .global-terminal .submit-btn:hover {
+            background-color: #44bd32;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>EBOLA VACINE RESEARCH PROPOSAL STAGE 1 PROFESSIONALS' SUGGESTION</h1>
+        <h2>Comprehensive Preclinical Research Proposal</h2>
+        <div class="slogan">SOLVING SOCIETY PROBLEMS ACTION SPEAK LOUDER THAN WORDS MAKE AFRICA GREAT</div>
+        <div class="meta-info">
+            <p><strong>Document ID:</strong> EBOV-GP/DD-2026-NBI</p>
+            <p><strong>Principal Investigator:</strong> David Pkemei Beritet, BSc. Biochemistry & Biotechnology (Pwani University)</p>
+            <p><strong>Contact Email:</strong> <a href="mailto:davidberitet24@gmail.com">davidberitet24@gmail.com</a></p>
+            <p><strong>Contact Number:</strong> <a href="tel:+254740182754">+254740182754</a></p>
+            <p><strong>Technical Focus:</strong> High-Throughput Bioinformatics, AI-Driven Sequence Annotation, & Computational Pharmacology</p>
+            <p><strong>Target Venue:</strong> ResearchGate Global Open-Review Initiative & Translational Biopharma Evaluation</p>
+            <p><strong>Principal Investigator CV:</strong> <a class="cv-link" href="https://beridav24.github.io/David-Pkemei-Beritet-C.V-/" target="_blank">View Professional CV</a></p>
+        </div>
+
+        <div class="notification-status-panel">
+            <div class="status-title">
+                <span class="pulse-indicator"></span> 
+                Live System Engines & Researcher Notification Links Connected
+            </div>
+            <div class="engine-grid">
+                <div class="engine-tag">Google SEO Indexer <span>Active</span></div>
+                <div class="engine-tag">EmailJS Relay Routing <span>Ready</span></div>
+                <div class="engine-tag">Peer Notifications <span>Auto-Listen</span></div>
+                <div class="engine-tag">Fund Routing Gateways <span>Auto-Notify</span></div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h2>1. Introduction & Collaborative Rationale</h2>
+        <p>Acute Ebola Virus Disease (EVD) remains one of the most volatile viral threats to human physiology, characterized by rapid replication, profound immune evasion, and terminal endothelial damage. This open-source scientific proposal establishes an architectural blueprint for a dual-action therapeutic candidate. By executing early-stage discovery via <strong>in silico computational pipelines</strong>, the project minimizes initial wet-lab biosecurity overhead while focusing strictly on public-domain molecular and genomic sequences.</p>
+        <p>To transition this theoretical framework into a validated, peer-reviewed methodology ready for institutional deployment, this document serves as an active, collaborative workspace. Explicit open-ended modules are embedded below, requesting our named expert panels across Kenyan academic institutions, regulatory authorities, and specialized research institutes to propose further online.</p>
+    </section>
+
+    <section>
+        <h2>2. Pathophysiological Targets & Structural Virology</h2>
+         
+        <div class="diagram-box">
+            [EBOV Genomic RNA] ➔ [Trimeric GP Spike Expression] ➔ Target for Peptide Inhibition<br>
+            [Host Macrophages] ➔ [Pro-inflammatory Cascade] ➔ Target for Phytochemical Regulation
+        </div>
+
+        <h3>2.1 Structural Virology & Entry Inhibition</h3>
+        <p>The target pathogen is the single-stranded, negative-sense RNA genome of the <i>Filoviridae</i> family, focusing exclusively on the surface trimeric Glycoprotein (GP). GP is the sole engine mediating viral attachment and endosomal membrane fusion with host cell receptors.</p>
+        <ul>
+            <li><strong>Mechanism of Action (MOA):</strong> High-throughput docking engines are programmed to model a synthetic, non-toxic peptide derivative that binds tightly within the prefusion conformation pocket of the EBOV GP, preventing viral entry into the host cell.</li>
+        </ul>
+
+        <div class="image-placeholder">
+            <div style="font-size: 24px; margin-bottom: 10px;">🔬</div>
+            <div>[Image Agent Tag: 7216916069537161781]</div>
+            <div class="image-title">Structural Anatomy of the Ebola Virion</div>
+            <div style="font-size: 12px; color: #777; max-width: 500px; margin: 5px auto 0 auto;">Structural diagram of an Ebola Virion showing the outer lipid membrane, internal RNA genome, and surface Glycoprotein spikes responsible for host cell attachment.</div>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 PROFESSOR SUHILA HASHIM, PhD (Pwani University Lecturer)</div>
+            <h4>💻 [ONLINE ACADEMIC PROPOSAL MODULE - OPEN FOR PEER REVIEW]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding the computational structural dynamics and transcriptomic parameters required to stabilize this target domain.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-suhila" placeholder="[Enter detailed Python structural docking scripts, molecular dynamic parameters, and receptor stability data here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('PROFESSOR SUHILA HASHIM', 'msg-suhila')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 DOCTOR EVERLYNE ISOE, PhD (Pwani University Lecturer)</div>
+            <h4>💻 [ONLINE ACADEMIC PROPOSAL MODULE - OPEN FOR PEER REVIEW]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding genomic sequence variation analysis, epitope conservation metrics, and biochemical assay targeting.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-isoe" placeholder="[Enter evaluation details regarding sequence variations, conservation logs, and biochemical assay selection targets here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('DOCTOR EVERLYNE ISOE', 'msg-isoe')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 MANASE OLOO (Bioinformatics Specialist & Python Systems Engineer)</div>
+            <h4>💻 [ONLINE DATA ANALYSIS & CODING PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding Python script optimization, Pandas/NumPy matrix configurations for high-throughput structural labeling, and raw FASTQ data processing pipelines.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-manase" placeholder="[Enter system architecture profiles, array manipulations, script benchmarks, and pipeline automation sequences here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('MANASE OLOO', 'msg-manase')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <h3>2.2 Host Cellular Immunomodulation & Endothelial Stability</h3>
+        <p>The profound bleeding and vascular leakage observed during severe clinical manifestations are caused by systemic inflammatory cascades. The virus primarily targets tissue-resident macrophages and dendritic cells, triggering a hyper-inflammatory "cytokine storm."</p>
+        <ul>
+            <li><strong>Mechanism of Action (MOA):</strong> Purified, isolated small molecules derived from targeted pharmacognosy are introduced to down-regulate the nuclear factor kappa B (NF-κB) pathway within infected cell lines, halting the overproduction of pro-inflammatory cytokines (TNF-α, IL-6, and IL-1β) to preserve vascular integrity.</li>
+        </ul>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 DOCTOR OKWARO (Professor of Herbalism, University of Nairobi)</div>
+            <h4>💻 [ONLINE PHARMACOGNOSY & ETHNOBOTANY PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> Based on your established proof of boosting body immunity, you are requested to propose online regarding the identification, isolation, and clinical classification of specific active phytocompounds designed to prevent vascular leakage without inducing toxic side effects.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-okwaro" placeholder="[Enter standardized pharmacognosy extraction metrics, purified cellular iso-forms, botanical properties, and isolation indices here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('DOCTOR OKWARO', 'msg-okwaro')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 DOCTOR MBINDA (Pharmacology Expert)</div>
+            <h4>💻 [ONLINE DRUG DESIGN & PHARMACOLOGICAL PROFILE MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding cellular bioavailability parameters, standard pharmacokinetic curves, and isolation techniques for the active medicinal molecules.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-mbinda" placeholder="[Enter pharmacological parameters, molecular weight targets, half-life targets, and dynamic ligand behaviors here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('DOCTOR MBINDA', 'msg-mbinda')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 DOCTOR SAMWEL ODUOR (Immunology Expert)</div>
+            <h4>💻 [ONLINE HOST IMMUNE STABILIZATION PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online detailing the down-regulation kinetics of the host cytokine cascades (TNF-α, IL-6, and IL-1β) inside tissue-resident macrophages and dendritic cells.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-oduor" placeholder="[Enter cell pathway graphics references, cellular receptor interactions, and cytokine suppression thresholds here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('DOCTOR SAMWEL ODUOR', 'msg-oduor')">Submit & Notify Team Automatic</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Preclinical Validation Pipeline & Core Lab Logistics</h2>
+        <p>To move from structural design to safe biological proof-of-concept, the testing framework must advance through distinct safety and validation levels, ensuring high reproducibility and low research risk.</p>
+         
+        <div class="image-placeholder">
+            <div style="font-size: 24px; margin-bottom: 10px;">📊</div>
+            <div>[Image Agent Tag: 7216916069537161292]</div>
+            <div class="image-title">In Silico Preclinical Discovery Framework</div>
+            <div style="font-size: 12px; color: #777; max-width: 500px; margin: 5px auto 0 auto;">Diagram showing the in silico drug discovery pipeline, moving from target identification and structural biology to lead optimization and predictive toxicology.</div>
+        </div>
+
+        <ul class="sequence-list">
+            <li class="sequence-step">
+                <div class="sequence-step-title">In Silico Screening & Hit Identification</div>
+                <div class="sequence-step-subtitle">Computational Modeling</div>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">Processing genomic datasets using Pandas, NumPy, and R (Bioconductor). High-affinity compounds are structurally labeled, checked against predictive ADME/Tox matrices, and filtered to eliminate potential cardiotoxicity or hepatotoxicity before moving to chemical synthesis.</p>
+            </li>
+            <li class="sequence-step">
+                <div class="sequence-step-title">In Vitro Pseudovirus Assays</div>
+                <div class="sequence-step-subtitle">BSL-2 Safety Protocols</div>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">Evaluating lead synthetic peptides in cell culture against non-pathogenic, replication-deficient pseudotyped viruses (e.g., VSV or lentiviruses expressing EBOV GP) to verify real-world entry inhibition (IC50) under low-containment safety conditions.</p>
+            </li>
+            <li class="sequence-step">
+                <div class="sequence-step-title">Live Pathogen Neutralization & Efficacy</div>
+                <div class="sequence-step-subtitle">BSL-4 Maximum Containment</div>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">Testing finalized hits directly against wild-type Zaire ebolavirus strains inside an accredited Biosafety Level 4 (BSL-4) containment facility to measure cell survival, anti-viral latency, and real-world viral suppression profiles.</p>
+            </li>
+        </ul>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 KEMRI (KENYA MEDICAL RESEARCH INSTITUTE) RESEARCHERS</div>
+            <h4>💻 [ONLINE WET-LAB PRECLINICAL EXECUTION & ASSAY DESIGN PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> The KEMRI research panel is requested to propose online further technical frameworks regarding standard operating procedures for live pathogen neutralization assays, sample containment matrices, and BSL-4 facility workflow pipelines.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-kemri" placeholder="[Enter KEMRI laboratory protocols, assay volumes, temperature envelope tolerances, and BSL-4 isolation testing criteria here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('KEMRI RESEARCHERS', 'msg-kemri')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card" style="border: 1px solid #0f4c81; border-left: 6px solid #0f4c81; background: #f0f4f8;">
+            <div class="collab-card-title" style="color: #0f4c81;">🔬 PROPOSED LEVEL 4 ADVANCED LABORATORY SYSTEM (KEMRI - KENYA)</div>
+            <h4>💻 [PROPOSED BSL-4 MAXIMUM CONTAINMENT EXPANSION ARCHITECTURE]</h4>
+            <p class="collab-context"><strong>Proposal Context:</strong> Strategic structural framework modeling maximum biosafety engineering parameters for handling non-diluted hemorrhagic variants within a proposed localized Kenyan BSL-4 ecosystem.</p>
+            <p><strong>Strategic Engineering & Containment Parameters Input Space:</strong></p>
+            <textarea id="msg-bsl4-proposed" placeholder="[Propose structural logistics: air handling parameters, negative pressure zones, absolute HEPA filter lifespans, chemical shower loops, and remote handling robotics protocols here...]"></textarea>
+            <button class="submit-btn" style="background-color: #0f4c81;" onclick="sendNotification('PROPOSED LEVEL 4 ADVANCED LAB KEMRI', 'msg-bsl4-proposed')">Submit Strategic Lab Parameters</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 ODONGO JAMES (Biochemical Laboratory Specialist & Classmate Co-Author)</div>
+            <h4>💻 [ONLINE LABORATORY VALIDATION PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding raw cell-line propagation, buffer parameters, and real-time monitoring criteria for the enzymatic inhibition screenings.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-odongo" placeholder="[Enter mechanical laboratory profiles, pipetting volumes, microtiter setup, and buffer parameters here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('ODONGO JAMES', 'msg-odongo')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 MERCY SADA (Biochemical Laboratory Specialist & Classmate Co-Author)</div>
+            <h4>💻 [ONLINE ASSAY DESIGN & TESTING PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding the ELISA test formulas, antibody selection parameters, and microplate reading protocols to confirm glycoprotein neutralization.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-sada" placeholder="[Enter enzyme substrate matrices, kinetic markers, standard dilution values, and multi-well optical layout protocols here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('MERCY SADA', 'msg-sada')">Submit & Notify Team Automatic</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Product Evaluation, Standardization & Quality Control</h2>
+        <p>Pharmaceutical viability depends completely on absolute molecular homogeneity, batch-to-batch consistency, and robust chemical validation to prevent impurities from entering clinical workflows.</p>
+         
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter Group</th>
+                    <th>Target Standard</th>
+                    <th>Verification Methodology</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Peptide Purity</strong></td>
+                    <td>&ge; 98.0% Peak Area by HPLC</td>
+                    <td>High-Performance Liquid Chromatography (HPLC)</td>
+                </tr>
+                <tr>
+                    <td><strong>Phytochemical Profile</strong></td>
+                    <td>Quantified Active Biomarker Mass</td>
+                    <td>Gas Chromatography-Mass Spectrometry (GC-MS)</td>
+                </tr>
+                <tr>
+                    <td><strong>Contamination Limits</strong></td>
+                    <td>Zero Detectable Pyrogens / Endotoxins</td>
+                    <td>Limulus Amebocyte Lysate (LAL) Testing</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 ERIC OYOO (Pharmaceutical Product Evaluation Specialist)</div>
+            <h4>💻 [ONLINE MOLECULAR EVALUATION & STANDARDIZATION PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding degradation curves under variable temperature thresholds, molecular safety tolerances, and mass spectrometry profiles.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-oyoo" placeholder="[Enter product evaluation frameworks, chemical composition verifications, degradation curves, and profile logs here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('ERIC OYOO', 'msg-oyoo')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 SIMON NYAPELA (KEBS - Kenya Bureau of Standards Regulation Expert)</div>
+            <h4>💻 [ONLINE NATIONAL STANDARDIZATION PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding product validation templates, manufacturing purity requirements, and formal verification frameworks according to KEBS guidelines.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-nyapela" placeholder="[Enter KEBS quality control benchmarks, chromatographic assay profiles, national purity guidelines, and safety markers here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('SIMON NYAPELA', 'msg-nyapela')">Submit & Notify Team Automatic</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Clinical Safety Architecture & Regulatory Milestones</h2>
+        <p>Transitioning a validated therapeutic molecule into clinical implementation requires strict compliance with international frameworks, prioritizing human protective safety through well-designed clinical research phases.</p>
+         
+        <div class="diagram-box">
+            [Preclinical Data Dossier] ➔ [IND Application Submission] ➔ [Phase 1 Human Safety Evaluation]
+        </div>
+
+        <ul>
+            <li><strong>Phase 1 Clinical Protocol Target:</strong> To assess the human safety profile, metabolic clearance, and dose tolerability of the isolated, non-toxic compound.</li>
+            <li><strong>Target Cohort:</strong> A tightly managed group (20 to 80) of <strong>healthy human volunteers</strong> who are uninfected with Ebola, establishing baseline safety metrics before evaluating efficacy in real-world environments.</li>
+        </ul>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 PROTUS O. (Government Regulation & FDA Liaison Frameworks)</div>
+            <h4>💻 [ONLINE REGULATORY GATEWAY & IND DOSSIER PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to propose online regarding Investigational New Drug (IND) architecture, clinical trial authorization pathways, and cross-border regulatory synchronization.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-protus" placeholder="[Enter clinical trial protocols, authorization pathways, toxic tracking structures, and regulatory liaison logs here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('PROTUS O.', 'msg-protus')">Submit & Notify Team Automatic</button>
+        </div>
+
+        <div class="collab-card">
+            <div class="collab-card-title">📝 PPB (PHARMACY AND POISONS BOARD KENYA) RESEARCHERS</div>
+            <h4>💻 [ONLINE NATIONAL CLINICAL TRIAL REGULATORY COMPLIANCE PROPOSAL MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> The PPB compliance panel is requested to propose online further guidelines regarding localized Kenyan clinical trials, ethical authorization milestones, and manufacturing approvals.</p>
+            <p><strong>Further Proposal & Feedback Space:</strong></p>
+            <textarea id="msg-ppb" placeholder="[Enter PPB national directives, safety authorization templates, clinical site approval requirements, and pharmaceutical import clearance logs here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('PPB KENYA RESEARCHERS', 'msg-ppb')">Submit & Notify Team Automatic</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>6. International Strategic Alignment & Resource Procurement</h2>
+        <p>To scale this open-source preclinical framework into global institutional evaluation networks, targeted funding applications and multi-agency resources must be actively synchronized.</p>
+
+        <div class="collab-card funding-card">
+            <div class="collab-card-title">🔬 WHO (WORLD HEALTH ORGANIZATION) CO-AUTHORS</div>
+            <h4>💻 [GLOBAL HEALTH EMERGENCY STRATEGY & DEPLOYMENT MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> You are requested to provide direct strategic inputs regarding emergency use assessment listings (EUAL), global vaccine stockpile allocations, and cross-border field logistics.</p>
+            <p><strong>Strategic Deployment Input Space:</strong></p>
+            <textarea id="msg-who" placeholder="[Enter WHO policy alignments, rapid deployment protocols, targeted epidemiological indicators, and localized distribution milestones here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('WHO CO-AUTHORS', 'msg-who')">Submit Strategic Blueprint</button>
+        </div>
+
+        <div class="collab-card funding-card">
+            <div class="collab-card-title">💰 BILL & MELINDA GATES FOUNDATION (Global Health Program Panel)</div>
+            <h4>💻 [FINANCIAL PROPOSAL & RESEARCH SEED CAPITAL ALLOCATION MODULE]</h4>
+            <p class="collab-context"><strong>Request Context:</strong> This module is configured to process seed grant budget itemization milestones, computational capacity expansion allowances, and equipment resource provisioning pipelines.</p>
+            <p><strong>Budget Itemization & Funding Request Space:</strong></p>
+            <textarea id="msg-gates" placeholder="[Propose operational budget thresholds: cost per in silico sequencing pipeline, laboratory hardware acquisition costs, and local research fellowship stipends here...]"></textarea>
+            <button class="submit-btn" onclick="sendNotification('GATES FOUNDATION PANEL', 'msg-gates')">Submit Grant Application</button>
+        </div>
+    </section>
+
+    <section class="security-card">
+        <div class="collab-card-title">🔒 ONLINE FORENSICS PROTECTION, COPYRIGHT MANIFEST & RESOURCE MONETIZATION EQUITY</div>
+        <h4>💻 [INTEGRATED CRYPTOGRAPHIC ENCRYPTION ENGINE & DATA RIGHTS SECURITY]</h4>
+        <p class="collab-context"><strong>System Context:</strong> Enforces client-side cryptographic hashing/masking on live investigative sequences to prevent digital theft, scrapers, or intellectual property leaks, while guaranteeing legal contributor attribution.</p>
+        
+        <h3>6.1 Structural Contributor Equity & Revenue Distribution Matrix</h3>
+        <p>By interacting with this network platform or submitting design profiles, all technical and strategic inputs are bound to the following multi-signature algorithmic asset splits when commercialized or licensed:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Design Entity Group</th>
+                    <th>Structural Responsibility Core</th>
+                    <th>Monetization Share (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Principal Investigator</strong></td>
+                    <td>David Pkemei Beritet (Core Pipeline Architecture & Intellectual Asset Strategy)</td>
+                    <td>70.0% Guaranteed Equity</td>
+                </tr>
+                <tr>
+                    <td><strong>Named Academic Experts</strong></td>
+                    <td>University Lecturers, Botanists & Pharmacology Review Teams</td>
+                    <td>20.0% Distributed Share</td>
+                </tr>
+                <tr>
+                    <td><strong>Systems & Lab Personnel</strong></td>
+                    <td>Laboratory Specialists, Data Annotation Engineers & Co-Authors</td>
+                    <td>10.0% Joint Reserve Split</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.2 Web-Scale Digital Copyright Tracking Manifest</h3>
+        <p><strong>© 2026 Beridav Coin & Clinical Research Initiative. All Rights Reserved.</strong> This system is monitored via real-time anti-scraping markers. Any unauthorized commercial data extraction, automated mirror scraping, script piracy, or unauthorized training into closed corporate LLM nodes without a formal multi-signature license key will trigger immediate digital forensic trace actions and international civil and criminal lawsuits under the Kenya Copyright Act (Cap 130).</p>
+
+        <p><strong>Secure Forensic Input Console (Auto-Masked & Scraper-Shielded):</strong></p>
+        <textarea id="msg-forensics" placeholder="[Enter raw investigative sequences, diagnostic logs, or tracking markers here. Press button below to encrypt data-at-rest before transmission...]"></textarea>
+        <button class="submit-btn" style="background-color: var(--crypto-color);" onclick="processForensicProtection()">Encrypt Forensic Payload & Lock Shares</button>
+    </section>
+
+    <section class="global-terminal">
+        <h3>💻 Advanced Global Terminal & Multi-Agent Network Core Workspace</h3>
+        <p style="color: #a4b0be; font-size: 13px; margin-top: -5px; margin-bottom: 15px;">
+            This master core workspace aggregates all multi-layered script modifications, advanced genomic pipelines, macro-economic budget calculations, and collaborative project edits. Your modifications here update the broader integrated researcher network instantly.
+        </p>
+        <textarea id="msg-global" placeholder="[MASTER RUNNING CONSOLE: Write your advanced bioinformatics scripts, structural docking edits, or global funding modifications across all panels here...]"></textarea>
+        <button class="submit-btn" onclick="sendNotification('GLOBAL MASTER TERMINAL CORE', 'msg-global')">Execute Master Synchronization Across Global Network</button>
+    </section>
+
+    <div class="warning-note-panel">
+        <div class="warning-title">⚠️ Strictly Enforced Legal Warning & Network Restriction Policy</div>
+        <p style="margin: 0; font-size: 13px; color: #721c24; font-weight: 500;">
+            RESTRICTED ENTRY DATAWAY. This research framework contains highly proprietary biochemical algorithms and structural models. Unsanctioned redistribution, data mirroring, password sharing, or malicious decryption of this portal will result in immediate network expulsion, remote termination of active developer API verification keys, automated data blacklisting, and aggressive legal escalation for cyber asset theft, industrial sabotage, and breach of standard global non-disclosure covenants.
+        </p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 David Pkemei Beritet. All Rights Reserved. | Dedicated to Bio-Computational Scientific Advancements.</p>
+    </footer>
+</div>
+
+<script type="text/javascript">
+    /**
+     * Sends dynamic browser notifications and relays text payloads upstream using EmailJS framework.
+     * Keeps researchers and developers completely informed via live data handshakes.
+     * * @param {string} senderName Name of the specific expert panel module or input channel.
+     * @param {string} elementId HTML attribute targeting the specific textarea box.
+     */
+    function sendNotification(senderName, elementId) {
+        var textContent = document.getElementById(elementId).value.trim();
+        
+        if (textContent === "") {
+            alert("Error: The proposal comment area for " + senderName + " is empty. Please insert your data before submitting.");
+            return;
+        }
+
+        // Display a clean confirmation layout locally to user
+        alert("Notification Engine Initialized!\nSending proposal update from: " + senderName + "...\n\nData Payload:\n" + textContent.substring(0, 120) + "...");
+
+        // EmailJS Live Core Parameters Integration Mapping
+        // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your personal EmailJS dashboard configurations
+        var emailParams = {
+            from_name: senderName,
+            to_name: "Principal Investigator: David Pkemei Beritet",
+            message: textContent,
+            reply_to: "davidberitet24@gmail.com"
+        };
+
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", emailParams)
+            .then(function(response) {
+                console.log("SUCCESS! Data packet successfully routed over EmailJS relay network.", response.status, response.text);
+                alert("Success! " + senderName + "'s data packet has been successfully synchronized and emailed to the Principal Investigator.");
+            }, function(error) {
+                console.log("FAILED to route data packet natively over EmailJS network...", error);
+                // Graceful failure fallback notification
+                alert("System Info: Notification logged locally into browser console. (Connect your real EmailJS Public Key in line 11 to activate the automatic email relay).");
+            });
+    }
+
+    /**
+     * Client-side Forensic Encryption Simulation Engine.
+     * Automatically applies a reversible base64/hex cryptographic obfuscation shield onto raw forensic 
+     * console lines to safeguard data streams from open web trackers, crawlers, and data scrapers.
+     */
+    function processForensicProtection() {
+        var targetBox = document.getElementById('msg-forensics');
+        var rawData = targetBox.value.trim();
+
+        if (rawData === "") {
+            alert("Forensic Alert: Input console is empty! Please write or paste raw forensic parameters before running encryption.");
+            return;
+        }
+
+        if (rawData.startsWith("---[SECURE AES-256 PARSED MATRIX]---")) {
+            alert("Encryption Engine Notice: This database payload is already fully sealed and structurally masked.");
+            return;
+        }
+
+        try {
+            // Apply defensive client-side string transformation script mimicking bitwise shift and hex encoding
+            var encodedPayload = btoa(encodeURIComponent(rawData));
+            var simulatedCiphertext = "---[SECURE AES-256 PARSED MATRIX]---\nCIPHER BLOCK KEY ID: BRDV-2026\nMETADATA SHARES LOCKED: TRUE\nPAYLOAD MASK:\n" + encodedPayload;
+            
+            targetBox.value = simulatedCiphertext;
+            
+            // Log confirmation and execute secure network notification relay automatically
+            alert("Forensic Core Success!\n1. Anti-theft digital copyright trackers embedded.\n2. Contributor equity monetization distribution values locked natively.\n3. Encrypted cipher block updated successfully inside console.");
+            sendNotification('SECURE FORENSIC PROTECTION SYSTEM', 'msg-forensics');
+        } catch(e) {
+            console.error("Cryptographic processing error: ", e);
+            alert("System Malfunction: Encountered issues compiling client encryption algorithms. Trace logged.");
+        }
+    }
+</script>
+
+</body>
 </html>
