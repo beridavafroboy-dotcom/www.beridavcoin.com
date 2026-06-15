@@ -1,4 +1,5 @@
-# BERIDAV COIN - Website
+# BERIDAV COIN - Website 
+https://wwwberidav-coin-com.base44.app/
 
 A revolutionary cryptocurrency platform featuring "Invisible Bitcoin" wireless radiofrequency body transactions.
 
@@ -13,12 +14,12 @@ A revolutionary cryptocurrency platform featuring "Invisible Bitcoin" wireless r
 
 ## Deployment
 
-This website is deployed on GitHub Pages.
+This website is deployed on GitHub Pages https://wwwberidav-coin-com.base44.app/.
 
 **Live Site:** https://beridavafroboy-dotcom.github.io/www.beridavcoin.com
 
 ### How to Enable GitHub Pages:
-
+https://wwwberidav-coin-com.base44.app/
 1. Go to your repository settings
 2. Scroll to **"Pages"** section
 3. Under **Source**, select **Deploy from a branch**
